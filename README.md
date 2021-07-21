@@ -7,6 +7,10 @@ cp .env.example .env
 edit .env
 
 ```
-docker-compose up -d
+docker network create reverse_proxy
+docker network create pgsql
 ```
 
+```
+docker-compose up -d
+```

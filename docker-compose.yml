@@ -16,29 +16,32 @@ x-basic-setting: &basic-setting
     start_period: 10s
     retries: 3
 
-volumes:
-  my-volume:
-    name: my-volume
-    driver: local
-
 networks:
-  my-network:
-    name: my-network
-    driver: bridge
-    internal: true
+  reverse_proxy:
+    external: true
+  pgsql:
+    external: true
 
 services:
-  my-app:
+  miniflux:
     <<: *basic-setting
-    image: docker.io/library/nginx:alpine
-    container_name: my-app
+    image: docker.io/miniflux/miniflux:2.0.31
+    container_name: miniflux
     networks:
-      - my-network
+      - reverse_proxy
+      - pgsql
     expose:
-      - 80
-    ports:
-      - 80:80
+      - 8080
     environment:
-      - foo=bar
-    volumes:
-      - my-volume:/etc/nginx:rw
+      - DATABASE_URL=${ENV_DATABASE_URL}
+      - RUN_MIGRATIONS=1
+      - CREATE_ADMIN=1
+      - ADMIN_USERNAME=${ENV_ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ENV_ADMIN_PASSWORD}
+      - BASE_URL=${ENV_BASE_URL}
+    healthcheck:
+      test: [ "CMD", "/usr/bin/miniflux", "-healthcheck", "auto" ]
+      interval: 30s
+      timeout: 30s
+      start_period: 10s
+      retries: 3
