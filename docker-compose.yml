@@ -40,7 +40,6 @@ services:
       - ADMIN_PASSWORD=${ENV_ADMIN_PASSWORD}
       - BASE_URL=${ENV_BASE_URL}
       - PROXY_IMAGES="all"
-      - HTTP_CLIENT_USER_AGENT="Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0"
     healthcheck:
       test: [ "CMD", "/usr/bin/miniflux", "-healthcheck", "auto" ]
       interval: 30s
