@@ -39,9 +39,11 @@ services:
       - ADMIN_USERNAME=${ENV_ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ENV_ADMIN_PASSWORD}
       - BASE_URL=${ENV_BASE_URL}
-      - PROXY_IMAGES="all"
+      - PROXY_IMAGES=all
+      - CLEANUP_ARCHIVE_UNREAD_DAYS=-1
+      - CLEANUP_ARCHIVE_READ_DAYS=-1
     healthcheck:
-      test: [ "CMD", "/usr/bin/miniflux", "-healthcheck", "auto" ]
+      test: [ "CMD-SHELL", "/usr/bin/miniflux -healthcheck auto" ]
       interval: 30s
       timeout: 30s
       start_period: 10s
