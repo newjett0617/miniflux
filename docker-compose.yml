@@ -27,6 +27,8 @@ services:
     <<: *basic-setting
     image: docker.io/miniflux/miniflux:2.0.31
     container_name: miniflux
+    labels:
+      - autoheal=true
     networks:
       - reverse_proxy
       - pgsql
